@@ -1,0 +1,331 @@
+{% load leaflet_tags %} {% load static %}
+<html>
+
+<head>
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+    {{ form.media }}
+    <title>Pendataan Covid Sirahan</title>
+
+    {% leaflet_js %} {% leaflet_css %}
+    <style>
+        .leaflet-container {
+            height: 100vh;
+        }
+    </style>
+
+    <!-- memanggil bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+    </script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+    </script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+        integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+        crossorigin=""></script>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/home1.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'css/PetaCovid.css' %}" />
+  
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 30px">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" id="logo" />
+                <h5 class="judul">Sirahan</h5>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-toggle="modal" data-target="#tambah">Tambah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin">Edit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-toggle="modal"
+                            data-target="#exampleModalCenter">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="form-covid">
+
+    </div>
+
+
+
+
+    <div class="peta" style="padding-top: 50px">
+        <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">About</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Dengan menggunakan situs ini maka pengguna setuju dengan ketentuan berikut :</h6>
+                        <ul>
+                            <li>Web Gis Pendataan Covid Desa Sirahan merupakan salah satu hasil dari proker KKN UGM Desa
+                                Sirahan 2021 yang digunakan untuk mendata pasien covid-19 baik yang sudah dipastikan covid ataupun merasakan gejala covid-19 </li>
+                            <li>Hasil identifikasi didasarkan pada kuisioner yang diisi oleh pasien dan hasil identifikasi tersebut hanya digunakan deteksi awal 
+                                dan tidak dapat digunakan untuk menyatakan seseorang postif / negatif covid </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade bd-example-modal-lg" id="tambah" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="POST" action={% url "peta:simpan" %}>
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Pendataan Covid-19</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body fill">
+
+
+                            <div class="form-group">
+                                <label class="nama">Nama</label>
+                                <input type="text" class="form-control" 
+                                name="nama"
+                                id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="Masukkan Nama" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="nama">Usia</label>
+                                <input type="text" class="form-control" 
+                                name="usia" id="exampleInputPassword1"
+                                    placeholder="Usia anda" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="nama">Nomor</label>
+                                <input type="text" class="form-control"
+                                name="nomorHp"  id="exampleInputPassword1"
+                                    placeholder="Nomor handphone" required>
+                            </div>
+
+
+                            <div class="form-group kuisioner">
+                                <label for="exampleInputPassword">Apakah anda sedang dinyatakan covid 19?</label>
+                                <div class="pilihan">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tesCovid"
+                                        id="exampleRadios1" value=True>
+                                        <label class="form-check-label" for="exampleRadios1">
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tesCovid"
+                                            id="exampleRadios2" value=False>
+                                        <label class="form-check-label" for="exampleRadios2">
+                                            Tidak
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label class="nama">Kuisioner</label>
+                            <div class="form-belum-tes" id="tes">
+
+                                <label>Apakah anda mengalami kondisi/gejala berikut berikut : </label>
+                                <!-- <div class="kuisioner">
+                                        <label class="form-check-label pertanyaan" for="exampleRadios2">
+                                            Saat ini saya sedang merasakan demam
+                                        </label>
+                                        <div class="pilihan">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="exampleRadios1"
+                                                    id="exampleRadios1" value="option1" checked>
+                                                <label class="form-check-label" for="exampleRadios1">
+                                                    Ya
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="exampleRadios1"
+                                                    id="exampleRadios2" value="option2">
+                                                <label class="form-check-label" for="exampleRadios2">
+                                                    Tidak
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                            </div>
+
+                            <label class="nama">Posisi</label>
+                            <div class="koordinat">
+                                <input type="text" class="form-control" id="Lintang" 
+                                name = "lat" placeholder="Lintang (Geser marker dibawah)">
+                                <input type="text" class="form-control" 
+                                name = "long"
+                                id="Bujur" placeholder="Bujur (Geser marker dibawah)">
+                            </div>
+
+
+                            <div id="map2">
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" for="submit-form">Save changes</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </form>
+
+        <div class="modal modalfade" tabindex="-1" role="dialog" id="info">
+            <div class="modal-dialog .modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Data Pasien</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body fill">
+                    <div class="hasil-kuisioner">
+                        <label class="nama">Nama</label>
+                        <div class="isi">
+                            <p>Sandy Setyanagara</p>
+                        </div>
+                    </div>
+                    <div class="hasil-kuisioner">
+                        <label class="nama">Usia</label>
+                        <div class="isi">
+                        
+                        </div>
+                    </div>
+                    <div class="hasil-kuisioner">
+                        <label class="nama">Nomor Handphone</label>
+                        <div class="isi">
+                         
+                        </div>
+                    </div>
+                    
+                    <label class="nama">Hasil Kuisioner</label>
+                    <div class="hasil-kuisioner">
+                        <label >Apakah anda sedang dinyatakan covid 19?</label>
+                        <div class="isi">
+                         
+                        </div>
+                    </div>
+                    <div class="daftar-kuisioner">
+                        <div class="hasil-kuisioner">
+                            <label >Demam</label>
+                            <div class="isi">
+                             
+                            </div>
+                        </div>
+                        <div class="hasil-kuisioner">
+                            <label >Batuk / Pilek</label>
+                            <div class="isi">
+                             
+                            </div>
+                        </div>
+                        <div class="hasil-kuisioner">
+                            <label >Sesak nafas</label>
+                            <div class="isi">
+                             
+                            </div>
+                        </div>
+                        <div class="hasil-kuisioner">
+                            <label >Nyeri tenggorokan</label>
+                            <div class="isi">
+                             
+                            </div>
+                        </div>
+                        <div class="hasil-kuisioner">
+                            <label >Lama penyakit kurang dari 14 hari</label>
+                            <div class="isi">
+                             
+                            </div>
+                        </div>
+                        <div class="hasil-kuisioner">
+                            <label >Kontak erat dengan penderita COVID-19</label>
+                            <div class="isi">
+                             
+                            </div>
+                        </div>
+                        <div class="hasil-kuisioner">
+                            <label >Riwayat ke area penularan lokal</label>
+                            <div class="isi">
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <label >Berdasarkan hasil kuisioner maka pasien <b>kemungkinan</b>  termasuk kategori  <b id="vonis"></b> </label>
+                   
+                </div>
+              </div>
+            </div>
+          </div>
+
+</div>
+     
+
+        
+        <div class="leaflet-peta">
+
+            <div id="map">
+
+            </div>
+            <input type="hidden" id="pic-src" value="{% static 'img/pointer.png' %}" >
+        </div>
+    </div>
+</body>
+<script>
+    var daftarCovid = JSON.parse('{{ nama | safe }}')
+    
+    console.log(daftarCovid)
+</script>
+<script src="{% static 'js/petaCovid.js' %}"></script>
+
+</html>

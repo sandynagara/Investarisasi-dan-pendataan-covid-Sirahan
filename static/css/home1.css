@@ -1,0 +1,66 @@
+body, html {
+    height: 100%;
+}
+
+.background {
+    width:100%;
+    height: 100%;
+    background: url("https://i1.wp.com/hoke.com/wp-content/uploads/2014/04/map-background.jpg?ssl=1");
+    background-color: aqua 0.5;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background .pilihan{
+    width:100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content:center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+   
+}
+
+.selamat{
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.navbar {
+    background: none;
+}
+
+.tombol{
+    margin-top:45px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.tombol1{
+    font-size: 14px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    text-align: center;
+    border-width:3px;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+.posisi{
+    right:0px;
+}
+
+.navbar-brand{
+    display: flex;
+}
+
+.judul{
+    margin-left: 10px;
+}

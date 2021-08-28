@@ -1,0 +1,123 @@
+nav {
+  position: absolute;
+}
+
+.modal-content ,.modal-lg{
+  width: calc(90vh - 60px);
+}
+
+.form-check{
+  margin-right: 5px;
+}
+
+.tambah{
+  position: absolute;
+  float: right;
+  width: 648px;
+  height:500px;
+
+  right: 0px;
+  padding-left:  40px;
+  padding-right: 40px;
+  padding-top: 20px;
+  background-color: white;
+  overflow:scroll;
+   z-index: 100000;
+}
+
+.pilihan{
+  display: flex;
+}
+
+
+.kuisioner{
+  display: flex;
+  justify-content: space-between
+}
+
+.pilihan{
+  margin-left: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+.leaflet-peta{
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+#map2{
+  height: 300px;
+  width: 100%;
+}
+
+#Lintang{
+  margin-right: 30px;
+}
+
+
+.tanya{
+  font-size: 15px;
+}
+
+.koordinat{
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.fill{
+  height: 400px;
+  overflow: scroll;
+}
+
+.nama{
+  font-weight: bold;
+}
+
+.hasil-kuisioner{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.modalfade {
+  animation: fadeIn 2s;
+  -moz-animation: fadeIn 2s; /* Firefox */
+  -webkit-animation: fadeIn 2s; /* Safari and Chrome */
+  -o-animation: fadeIn 2s; /* Opera */
+}
+
+@keyframes fadeIn {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-moz-keyframes fadeIn { /* Firefox */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-webkit-keyframes fadeIn { /* Safari and Chrome */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-o-keyframes fadeIn { /* Opera */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity: 1;
+  }
+}

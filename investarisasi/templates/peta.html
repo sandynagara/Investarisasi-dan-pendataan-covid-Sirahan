@@ -1,0 +1,647 @@
+{% load leaflet_tags %} {% load static %}
+<html>
+
+<head>
+
+    <title>Investarisasi SDA Sirahan</title>
+
+    {% leaflet_js %} {% leaflet_css %}
+    <style>
+        .leaflet-container {
+            height: 100vh;
+        }
+    </style>
+
+    <!-- memanggil bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+    </script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+    </script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+        integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+        crossorigin=""></script>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/home1.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'css/peta3.css' %}" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 30px">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" />
+                <h5 class="judul">Sirahan</h5>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin">Edit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-toggle="modal" data-target="#exampleModalCenter">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="peta" style="padding-top: 50px">
+        <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg"  role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">About</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h6>Dengan menggunakan situs ini maka pengguna setuju dengan ketentuan berikut :</h6> 
+                  <ul>
+                    <li>Web Gis Investarisasi Desa Sirahan merupakan salah satu hasil dari proker KKN UGM Desa Sirahan 2021 yang digunakan untuk menginvestarisasikan SDA di Desa Sirahan</li>
+                    <li>Data yang disajikan yang merupakan data per 30 Juli 2021</li>
+                  </ul> 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="leaflet-peta">
+            <div class="sidebar">
+                <button class="openbtn" id="tombol-daftar-layer" onclick="openNav()">
+                    <div class="layer" id="button-legenda">
+                        <img src="{% static 'img/layer.png' %}" class="d-inline-block align-top gambar" alt="" />
+                    </div>
+                </button>
+                <button class="openbtn" id="tombol-daftar-layer" onclick="openNav2()">
+                    <div class="layer" id="button-Basemap">
+                        <img src="{% static 'img/basemap.png' %}" class="d-inline-block align-top gambar" alt="" />
+                    </div>
+                </button>
+            </div>
+
+            <div class="daftar-layer" id="legenda">
+                <div class="judul-sidebar">
+                    <p>Daftar Layer & Legenda</p>
+                </div>
+                <div class="isi-sidebar jenis-layer">
+                    <div class="click-layer">       
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkSawah" checked='true'
+                                onclick='check(7,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Sawah
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkKebun" checked='true'
+                                onclick='check(4,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Kebun
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkLahanKosong" checked='true'
+                                onclick='check(0,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Lahan Kosong
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkTambak" checked='true'
+                                onclick='check(1,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Tambak
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkSemakBelukar" checked='true'
+                                onclick='check(3,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Semak Belukar
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkHutan" checked='true'
+                                onclick='check(2,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Hutan
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkSungai" checked='true'
+                                onclick='check(5,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Sungai
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkLainnya" checked='true'
+                                onclick='check(6,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                Lainnya
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <div class="kotak"></div>
+                            <input class="form-check-input" type="checkbox" id="checkLainnya" checked='true'
+                                onclick='check(8,this.id)' />
+                            <label class="form-check-label" for="defaultCheck1">
+                                jalan
+                            </label>
+                        </div>
+                    </div>
+                    <div class="layer-tranparan">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,7)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,4)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,0)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,1)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,3)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,2)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,5)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,6)">
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="customRange2"
+                        onchange="Opacity(this.value,8)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="daftar-layer" id="basemap">
+                <div class="judul-sidebar">
+                    <p>Daftar Basemap</p>
+                </div>
+                <div class="isi-sidebar">
+                    <button class="openbtn-basemap" id="tombol-daftar-layer" onclick="basemapChoice(0)">
+                        <div class="basemap-item">
+                            <img src="{% static 'img/esri.jpg' %}" class="d-inline-block align-top esri" alt="" />
+                            <h6>Esri</h6>
+                        </div>
+                    </button>
+
+                    <button class="openbtn-basemap" id="tombol-daftar-layer" onclick="basemapChoice(1)">
+                        <div class="basemap-item">
+                            <img src="{% static 'img/esri.jpg' %}" class="d-inline-block align-top esri" alt="" />
+                            <h6>Carto</h6>
+                        </div>
+                    </button>
+
+                    <button class="openbtn-basemap" id="tombol-daftar-layer" onclick="basemapChoice(2)">
+                        <div class="basemap-item">
+                            <img src="{% static 'img/esri.jpg' %}" class="d-inline-block align-top esri" alt="" />
+                            <h6>Open Topo Map</h6>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div id="map">
+                
+            </div>
+            <div class="sidebar">
+                <div class="layer"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var map = L.map("map", {
+        center: [-7.618663, 110.268112],
+        zoom: 18,
+    });
+
+    async function Panggil(dataUrl) {
+        var geojson;
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+        }
+
+        var hide;
+
+        const response = await fetch(dataUrl);
+        const data = await response.json();
+
+        return await data;
+    }
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 5,
+            color: "yellow",
+            dashArray: "",
+            fillOpacity: 0.7,
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+    }
+
+    var layer = [];
+
+    var luar = [];
+    var daftarLayerGroup = [];
+
+    async function slider(dataurl, warna ,tipe) {
+        var data = await Panggil(dataurl);
+
+        console.log(data)
+
+        var geojson;
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+        }
+
+        var layerGroup = L.layerGroup();
+
+        geojson = L.geoJson(data, {
+            onEachFeature: function onEachFeature(feature, layer) {
+                if (tipe == 1 || tipe ==2){
+                    var props = feature.properties;
+                var pemilik, jenisLahanDesa;
+
+                var pemiliklahan = JSON.parse('{{ nama | safe }}');
+                var jenislahan = JSON.parse('{{ lahan | safe }}');
+
+                function foreignKey(kode, masukan) {
+                    if (kode == 1) {
+                        if (masukan.pk == props.pemilik) {
+                            pemilik = masukan.fields.nama;
+                        }
+                    } else if (kode == 2) {
+                        if (masukan.pk == props.jenis) {
+                            jenisLahanDesa = masukan.fields.jenis;
+                        }
+                    }
+                }
+
+                function pengulangan(masukan, kode) {
+                    for (let index = 0; index < masukan.length; index++) {
+                        foreignKey(kode, masukan[index]);
+                    }
+                }
+
+                pengulangan(jenislahan, 2);
+
+                if (tipe == 1) {
+
+                    pengulangan(pemiliklahan, 1);
+                    var content = ` <div class="container-popup">
+                                  <div class="keterangan">
+                                    <p>Keterangan<p>
+                                  </div>
+                                  <div class="isi-pop-up">
+                                    <div class="tengah">
+                                      <p> Jenis    : ${jenisLahanDesa}</p>
+                                      <p> Pemilik  : ${pemilik}</p>
+                                      <p> Luas     : ${props.luas} m<sup>2</sup></p>
+                                    </div>
+                                  </div>
+
+                                  </div>
+                                  `;
+                } else if ( tipe == 2) {
+
+                    var content = ` <div class="container-popup">
+                                  <div class="keterangan">
+                                    <p>Keterangan<p>
+                                  </div>
+                                  <div class="isi-pop-up">
+                                    <div class="tengah">
+                                      <p> Jenis    : ${jenisLahanDesa}</p>
+                                      <p> Panjang     : ${props.panjang} m</p>
+                                    </div>
+                                  </div>
+
+                                  </div>
+                                  `;
+                }
+
+
+
+                layer.bindPopup(content);
+
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                });
+                }
+
+            },
+            style: {
+                fillColor: warna,
+                weight: 2,
+                opacity: 0.5,
+                color: "white",
+                dashArray: "3",
+                fillOpacity: 0.5,
+            },
+        }).addTo(layerGroup).addTo(map);
+
+        luar.push(geojson)
+
+        return layerGroup;
+    }
+
+    var daftarUrl = [
+        ['{% url "investarisasi:dataLahanKosong" %}', "#ffffff",1],
+        ['{% url "investarisasi:dataTambak" %}', '#75d1a8',1],
+        ['{% url "investarisasi:dataHutan" %}', '#90DF59',1],
+        ['{% url "investarisasi:dataSemakBelukar" %}', '#8aed96',1],
+        ['{% url "investarisasi:dataKebun" %}', '#66A163',1],
+        ['{% url "investarisasi:dataSungai" %}', '#548AA1',2],
+        ['{% url "investarisasi:dataLainnya" %}', '#B35DAE',1],
+        ['{% url "investarisasi:dataSawah" %}', '#00ffff',1],
+        ['{% url "investarisasi:dataJalan" %}', '#E31A1C',3],
+    ]   
+
+    async function ulang() {
+        for (var index = 0; index < daftarUrl.length; index++) {
+            var woy = await slider(daftarUrl[index][0], daftarUrl[index][1], daftarUrl[index][2]);
+            woy.addTo(map)
+            daftarLayerGroup.push(woy)
+        }
+    }
+
+    ulang()
+
+    function Opacity(value, kode) {
+        luar[kode].setStyle({
+            fillOpacity: value,
+            opacity:value
+        })
+    }
+
+    function check(kode, id) {
+        console.log(daftarLayerGroup)
+        var checkBox = document.getElementById(id);
+
+        if (checkBox.checked == true) {
+            map.addLayer(daftarLayerGroup[kode]);
+            console.log("buka")
+        } else {
+            map.removeLayer(daftarLayerGroup[kode]);
+            console.log("tutup")
+        }
+    }
+
+    function warna() {
+        var kotak = document.getElementsByClassName("kotak");
+        var urutan = [7,4,0,1,3,2,5,6,8];
+        for (var x = 0;x < kotak.length;x++){
+            kotak[x].style.backgroundColor = daftarUrl[urutan[x]][1];
+            kotak[x].style.bordercolor = "rgba(255,0,0)";
+        }
+    }
+
+    warna();
+
+    var carto = L.tileLayer(
+        "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png", {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: "abcd",
+        }
+    );
+
+    var esri = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+            attribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        }
+    );
+
+    var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    });
+
+    function openNav() {
+        var lebarLegenda = document.getElementById("legenda").style.width;
+        var lebarBasemap = document.getElementById("basemap").style.width;
+
+        if (lebarLegenda == 280 + "px") {
+
+            document.getElementById("legenda").style.width = "0px";
+            document.getElementById("button-legenda").style.backgroundColor = "rgba(0,0,255,1);";
+        } else {
+            if (lebarBasemap == 280 + "px") {
+                document.getElementById("basemap").style.width = "0px";
+            }
+            document.getElementById("legenda").style.width = "280px";
+            document.getElementById("button-legenda").style.backgroundColor = "rgba(46,89,255,0.6);";
+        }
+    }
+
+    function openNav2() {
+        var lebarLegenda = document.getElementById("legenda").style.width;
+        var lebarBasemap = document.getElementById("basemap").style.width;
+
+        if (lebarBasemap == 280 + "px") {
+
+            document.getElementById("basemap").style.width = "0px";
+        } else {
+            if (lebarLegenda == 280 + "px") {
+                document.getElementById("legenda").style.width = "0px";
+            }
+            document.getElementById("basemap").style.width = "280px";
+        }
+    }
+
+    esri.addTo(map)
+
+    function basemapChoice(kode) {
+        var arrayBasemap = [esri, carto, OpenTopoMap];
+        var basemapClass = document.getElementsByClassName("openbtn-basemap");
+        for (var index = 0; index < basemapClass.length; index++) {
+            document.getElementsByClassName("openbtn-basemap")[index].style.backgroundColor = "rgba(255,255,255,1)";
+        }
+        document.getElementsByClassName("openbtn-basemap")[kode].style.backgroundColor = "rgba(46,89,255,0.6)";
+        map.removeLayer(esri, carto, OpenTopoMap);
+        map.addLayer(arrayBasemap[kode]);
+    }
+
+
+    // { //Pasti Jalan
+    //     function TambahLayer(dataUrl, map, warna, tipe) {
+    //         var geojson;
+
+    //         function resetHighlight(e) {
+    //             geojson.resetStyle(e.target);
+    //         }
+
+    //         var hide;
+
+    //         var tes = L.layerGroup();
+
+
+    //         fetch(dataUrl)
+    //             .then(function (resp) {
+    //                 return resp.json();
+    //             })
+    //             .then(function (data) {
+    //                 console.log(data);
+
+    //                 geojson = L.geoJson(data, {
+    //                     onEachFeature: function onEachFeature(feature, layer) {
+    //                         var props = feature.properties;
+    //                         var pemilik, jenisLahanDesa;
+
+    //                         var pemiliklahan = JSON.parse('{{ nama | safe }}');
+    //                         var jenislahan = JSON.parse('{{ lahan | safe }}');
+
+    //                         function foreignKey(kode, masukan) {
+    //                             if (kode == 1) {
+    //                                 if (masukan.pk == props.pemilik) {
+    //                                     pemilik = masukan.fields.nama;
+    //                                 }
+    //                             } else if (kode == 2) {
+    //                                 if (masukan.pk == props.jenis) {
+    //                                     jenisLahanDesa = masukan.fields.jenis;
+    //                                 }
+    //                             }
+    //                         }
+
+    //                         function pengulangan(masukan, kode) {
+    //                             for (let index = 0; index < masukan.length; index++) {
+    //                                 foreignKey(kode, masukan[index]);
+    //                             }
+    //                         }
+
+    //                         pengulangan(jenislahan, 2);
+
+    //                         if (tipe == 1) {
+
+    //                             pengulangan(pemiliklahan, 1);
+    //                             var content = ` <div class="container-popup">
+    //                               <div class="keterangan">
+    //                                 <p>Keterangan<p>
+    //                               </div>
+    //                               <div class="isi-pop-up">
+    //                                 <div class="tengah">
+    //                                   <p> Jenis    : ${jenisLahanDesa}</p>
+    //                                   <p> Pemilik  : ${pemilik}</p>
+    //                                   <p> Luas     : ${props.luas} m<sup>2</sup></p>
+    //                                 </div>
+    //                               </div>
+
+    //                               </div>
+    //                               `;
+    //                         } else {
+
+    //                             var content = ` <div class="container-popup">
+    //                               <div class="keterangan">
+    //                                 <p>Keterangan<p>
+    //                               </div>
+    //                               <div class="isi-pop-up">
+    //                                 <div class="tengah">
+    //                                   <p> Jenis    : ${jenisLahanDesa}</p>
+    //                                   <p> Panjang     : ${props.panjang} m</p>
+    //                                 </div>
+    //                               </div>
+
+    //                               </div>
+    //                               `;
+    //                         }
+
+    //                         layer.bindPopup(content);
+
+    //                         layer.on({
+    //                             mouseover: highlightFeature,
+    //                             mouseout: resetHighlight,
+    //                         });
+    //                     },
+    //                     style: {
+    //                         fillColor: warna,
+    //                         weight: 2,
+    //                         opacity: 0.8,
+    //                         color: "white",
+    //                         dashArray: "3",
+    //                         fillOpacity: 0.8,
+    //                     },
+    //                 }).addTo(tes);
+
+    //             });
+    //         return tes;
+    //     }
+
+    //     var dataurlLahanKosong = '{% url "investarisasi:dataLahanKosong" %}';
+    //     var dataurlTambak = '{% url "investarisasi:dataTambak" %}';
+    //     var dataurlHutan = '{% url "investarisasi:dataHutan" %}';
+    //     var dataurlSemakBelukar = '{% url "investarisasi:dataSemakBelukar" %}';
+    //     var dataurlKebun = '{% url "investarisasi:dataKebun" %}';
+    //     var dataurlSungai = '{% url "investarisasi:dataSungai" %}';
+    //     var dataurlLainnya = '{% url "investarisasi:dataLainnya" %}';
+
+  
+    //     var overlayMaps = {
+    //         esri: esri,
+    //         carto: carto,
+    //     };
+
+    //     var lahanKosong = TambahLayer(dataurlLahanKosong, map, "#ffffff", 1).addTo(map);
+    //     var hutan = TambahLayer(dataurlHutan, map, "#c7e0b0", 1).addTo(map);
+    //     var sungai = TambahLayer(dataurlSungai, map, "#548AA1", 2).addTo(map);
+    //     var tambak = TambahLayer(dataurlTambak, map, "#75d1a8", 1).addTo(map);
+    //     var semakBelukar = TambahLayer(dataurlSemakBelukar, map, "#8aed96", 1).addTo(map);
+    //     //var sawah = TambahLayer(dataurlSawah, map, "#00ffff", 1).addTo(map);
+    //     var kebun = TambahLayer(dataurlKebun, map, "#66A163", 1).addTo(map);
+    //     var lainnya = TambahLayer(dataurlLainnya, map, "#B35DAE", 1).addTo(map);
+
+    //     function check(kode, id) {
+
+    //         var dafterCheck = [ kebun, lahanKosong, tambak, semakBelukar, hutan, sungai, lainnya]
+
+    //         var checkBox = document.getElementById(id);
+
+    //         if (checkBox.checked == true) {
+    //             map.addLayer(dafterCheck[kode]);
+    //         } else {
+    //             map.removeLayer(dafterCheck[kode]);
+    //         }
+    //     }
+
+
+    // }
+</script>
+
+</html>

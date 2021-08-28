@@ -1,0 +1,118 @@
+<html>
+<!DOCTYPE html>
+    <head>
+          <title>Buat Superhero Baru</title>
+             <!-- memanggil leaflet -->
+          <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+          <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+          <!-- memanggil bootstrap -->
+          <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-
+          MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-
+          q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous">
+          </script>
+          <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+          integrity="sha384-
+          ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+          crossorigin="anonymous">
+          </script>
+          <script
+          src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+          integrity="sha384-
+          ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+          crossorigin="anonymous">
+          </script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="\peta">Navbar</a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" datatarget="#navbarSupportedContent" aria-controls="navbarSupportedContent" ariaexpanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="\peta">Home <span class="sr-only">(current)</span>
+                </a>
+            </li>
+        </ul>
+        </div>
+        </nav>
+        <div class="isi">
+            <div class="sidebar-menu-right " style="width: 250px; float: left; padding-left: 15px; padding-right: 15px; padding-top: 10px;" >
+                <h5>Tambah Superhero ke Basisdata</h5>
+                {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                <div class="alert alert-primary" role="alert">
+                {{ message }}
+                </div>
+                {% endfor %}
+                </ul>
+                {% endif %}
+                <form method="POST" action={% url "peta:simpan" %}>
+                {% csrf_token %}
+                <div class="form-group">
+                <label>Nama Superhero</label>
+                <input type="text" class="form-control" id="nama" name="nama"
+                placeholder="Nama Superhero Baru">
+                </div>
+                <div class="form-group">
+                <label>Latitude</label>
+                <input type="text" class="form-control" id="lat" name="lat"
+                placeholder="Latitude">
+                </div>
+                <div class="form-group">
+                <label>Longitude</label>
+                <input type="text" class="form-control" id="long" name="long"
+                placeholder="Longitude">
+                </div>
+              
+                <button type="submit" class="btn btn-primary">Tambahkan Superhero</button>
+                </form>
+                </div>
+
+            <div id="map" style=" height: 100%; " ></div>
+        </div>
+       
+    </body>
+
+    <script>
+        var map = L.map('map',{center: [-7.76223, 110.38949],zoom: 14});
+
+            var esri =
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            }).addTo(map);
+            var layerGroup = L.layerGroup().addTo(map);
+            marker = new L.marker([-7.76223, 110.38949]);
+            layerGroup.addLayer(marker);
+
+            window.addEventListener('resize',function(e){
+                var width1 = window.innerWidth;
+                console.log(width1);
+                var ukuran = width1-250+"px";
+                console.log(ukuran);
+               // document.getElementById("map").style.width= ukuran;
+            },true);
+        
+            map.on('click',function mapClickListen(e) {
+                var pos = e.latlng;
+                layerGroup.clearLayers();
+                marker = new L.marker(pos);
+                console.log(marker._latlng.lat);
+                var lintang = document.getElementById("lat").value=pos.lat;
+                var bujur = document.getElementById("long").value=pos.lng;
+                layerGroup.addLayer(marker);
+            }   
+            );
+    </script>
+</html>

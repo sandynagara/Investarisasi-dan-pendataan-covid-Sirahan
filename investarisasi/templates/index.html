@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <title>Lihat Superhero</title>
+    <!-- memanggil leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+   
+    <!-- memanggil bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+
+    <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+
+    <style>
+    #map {
+    height: calc(100vh - 60px);
+    }
+    </style>
+
+</head>
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Navbar</a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" datatarget="#navbarSupportedContent" aria-controls="navbarSupportedContent" ariaexpanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="">Home <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="tambah">Tambah <span class="sr-only">(current)</span>
+                </a>
+            </li>
+        </ul>
+        </div>
+        </nav>
+        <!-- container peta -->
+        <div id="map"></div>
+        <!-- script peta -->
+        <script>
+        // inisiasi peta dan basemap
+        
+        var map = L.map('map',{center: [-7.76223, 110.38949],zoom: 14});
+        
+        console.log(L);
+        var esri =
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        }).addTo(map);
+    
+        // panggil data dari Django menggunakan Template
+        var actuals = JSON.parse('{{ nama | safe }}');
+
+        console.log(actuals);
+
+        // tampilkan menggunakan javascript
+        var layerGroup = L.layerGroup().addTo(map);
+        for (var i = 0; i < actuals.length; i++) {
+        marker = new L.marker([actuals[i].fields.latitude,actuals[i].fields.longitude])
+        .bindPopup(actuals[i].fields.name
+        +'<br>'+'<a href="/peta/hapus/'+actuals[i].pk+'">hapus</a>'
+        +'<br>'+'<a href="/peta/update/'+actuals[i].pk+'">update</a>');
+        layerGroup.addLayer(marker);
+        };
+        </script>
+
+
+        </body>
+</html>

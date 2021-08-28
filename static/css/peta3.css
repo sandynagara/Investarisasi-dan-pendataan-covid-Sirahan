@@ -1,0 +1,316 @@
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 0px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 0px 0px;
+	line-height: 1.4;
+	}
+
+.leaflet-popup-content p {
+	margin: 0px 0;
+	}
+
+.form-range{
+	margin-left: 10px;
+	width: 140px
+}
+
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	
+	top: 4;
+	right: 0;
+	padding: 4px 4px 0 0;
+	border: none;
+	text-align: center;
+	width: 18px;
+	height: 14px;
+	font: 16px/14px Tahoma, Verdana, sans-serif;
+	color: #c3c3c3;
+	text-decoration: none;
+	font-weight: bold;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover {
+	color: #999;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	}
+
+
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+.leaflet-oldie .leaflet-popup-tip-container {
+	margin-top: -1px;
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+.keterangan{
+	width: 100%;
+	display: flex;
+	height: 30px;
+	justify-content: center;
+	text-align: center;
+	background-color: rgba(51,102,153);
+	align-items: center;
+}
+
+.keterangan p{
+	color: white;
+	font-weight: bold;
+}
+
+.leaflet-popup-content-wrapper{
+	width: 170px;
+	height: 150px;
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+
+.isi-pop-up{
+	padding: 12px 12px;
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.isi-pop-up p{
+	font-weight: bold;
+}
+
+.position-check #layercontrol {
+	width: 100px;
+    top: 0; left: 0;
+}
+
+.position-check{
+  padding-top: 1px;
+}
+
+.tengah{
+	height: 1150px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.posisi-layer{
+	padding: 100px;
+}
+
+.sidebar{
+	position: fixed;
+	height:  calc(100vh - 60px);
+	z-index: 999;
+	right: 0;
+	margin-right: 20px;
+	width: 38px;
+	background-color: rgba(46,89,255,0.8);
+	margin-top: 10px;
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.layer{
+	display: flex;
+	justify-content: center;
+}
+
+.layer:hover{
+	display: flex;
+	justify-content: center;
+	background-color: blue;
+}
+
+.gambar{
+	width: 22px;
+	height: 22px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.openbtn ,.openbtn-basemap{
+	background-color: rgba(0,0,0,0);
+	cursor: pointer;
+	border:0px;
+	padding: 0px;
+}
+
+.daftar-layer{
+	position: fixed;
+	z-index: 998;
+	right: 0;
+	margin-right: 58px;
+	width: 0px;
+	background-color: white;
+	transition: 0.5s;
+	max-height: inherit;
+	margin-top: 10px;
+	overflow:hidden;
+}
+
+.judul-sidebar{
+	height: 35px;
+	background-color: rgba(0,116,217,1);
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	overflow:hidden;
+	white-space: nowrap ;
+}
+
+.judul-sidebar p{
+	margin-top: 10px;
+	color:white;
+	font-weight: bold;
+}
+
+.daftar-layer .isi-sidebar{
+	padding: 10px;
+	overflow:hidden;
+	background-color: white;
+	white-space: nowrap ;
+}
+
+.esri{
+	width: 70px;
+	height: 70px;
+}
+
+.basemap-item{
+
+	display: flex;
+	align-items: center;
+	padding: 10px
+}
+
+.basemap-item h6{
+	margin-left: 10px;
+}
+#basemap .isi-sidebar{
+	padding:0px;
+	display: flex;
+	flex-direction: column;
+}
+
+.openbtn-basemap{
+	width: 100%;
+}
+
+.openbtn-basemap:hover{
+	background-color: rgba(46,89,255,0.6);
+}
+
+.form-check{
+	margin-top: 10px;
+	margin-bottom:  10px;
+	display: flex;
+	align-items: center;
+}
+
+#map{
+	margin-top: 8px;
+}
+
+.jenis-layer{
+	display: flex;
+}
+
+.layer-tranparan {
+	margin-top: 12px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.form-check label{
+  margin-top: 3px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.form-range{
+	width: 120px;
+}
+
+.kotak{
+	margin-top: 3px;
+	width: 13px;
+	height: 13px;
+	margin-right: 5px;
+	background-color: black;
+}
+
+@media (min-width: 200px) { 
+	.sidebar{
+		margin-right: 10px;
+		
+	}
+	.daftar-layer{
+			margin-right: 48px;
+	}
+}
+
+@media (min-width: 400px) { 
+	.sidebar{
+		margin-right: 20px;
+		
+	}
+	.daftar-layer{
+			margin-right: 58px;
+	}
+}
+
