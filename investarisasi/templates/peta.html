@@ -285,6 +285,8 @@
     async function slider(dataurl, warna ,tipe) {
         var data = await Panggil(dataurl);
 
+
+
         console.log(data)
 
         var geojson;
@@ -500,148 +502,6 @@
         map.addLayer(arrayBasemap[kode]);
     }
 
-
-    // { //Pasti Jalan
-    //     function TambahLayer(dataUrl, map, warna, tipe) {
-    //         var geojson;
-
-    //         function resetHighlight(e) {
-    //             geojson.resetStyle(e.target);
-    //         }
-
-    //         var hide;
-
-    //         var tes = L.layerGroup();
-
-
-    //         fetch(dataUrl)
-    //             .then(function (resp) {
-    //                 return resp.json();
-    //             })
-    //             .then(function (data) {
-    //                 console.log(data);
-
-    //                 geojson = L.geoJson(data, {
-    //                     onEachFeature: function onEachFeature(feature, layer) {
-    //                         var props = feature.properties;
-    //                         var pemilik, jenisLahanDesa;
-
-    //                         var pemiliklahan = JSON.parse('{{ nama | safe }}');
-    //                         var jenislahan = JSON.parse('{{ lahan | safe }}');
-
-    //                         function foreignKey(kode, masukan) {
-    //                             if (kode == 1) {
-    //                                 if (masukan.pk == props.pemilik) {
-    //                                     pemilik = masukan.fields.nama;
-    //                                 }
-    //                             } else if (kode == 2) {
-    //                                 if (masukan.pk == props.jenis) {
-    //                                     jenisLahanDesa = masukan.fields.jenis;
-    //                                 }
-    //                             }
-    //                         }
-
-    //                         function pengulangan(masukan, kode) {
-    //                             for (let index = 0; index < masukan.length; index++) {
-    //                                 foreignKey(kode, masukan[index]);
-    //                             }
-    //                         }
-
-    //                         pengulangan(jenislahan, 2);
-
-    //                         if (tipe == 1) {
-
-    //                             pengulangan(pemiliklahan, 1);
-    //                             var content = ` <div class="container-popup">
-    //                               <div class="keterangan">
-    //                                 <p>Keterangan<p>
-    //                               </div>
-    //                               <div class="isi-pop-up">
-    //                                 <div class="tengah">
-    //                                   <p> Jenis    : ${jenisLahanDesa}</p>
-    //                                   <p> Pemilik  : ${pemilik}</p>
-    //                                   <p> Luas     : ${props.luas} m<sup>2</sup></p>
-    //                                 </div>
-    //                               </div>
-
-    //                               </div>
-    //                               `;
-    //                         } else {
-
-    //                             var content = ` <div class="container-popup">
-    //                               <div class="keterangan">
-    //                                 <p>Keterangan<p>
-    //                               </div>
-    //                               <div class="isi-pop-up">
-    //                                 <div class="tengah">
-    //                                   <p> Jenis    : ${jenisLahanDesa}</p>
-    //                                   <p> Panjang     : ${props.panjang} m</p>
-    //                                 </div>
-    //                               </div>
-
-    //                               </div>
-    //                               `;
-    //                         }
-
-    //                         layer.bindPopup(content);
-
-    //                         layer.on({
-    //                             mouseover: highlightFeature,
-    //                             mouseout: resetHighlight,
-    //                         });
-    //                     },
-    //                     style: {
-    //                         fillColor: warna,
-    //                         weight: 2,
-    //                         opacity: 0.8,
-    //                         color: "white",
-    //                         dashArray: "3",
-    //                         fillOpacity: 0.8,
-    //                     },
-    //                 }).addTo(tes);
-
-    //             });
-    //         return tes;
-    //     }
-
-    //     var dataurlLahanKosong = '{% url "investarisasi:dataLahanKosong" %}';
-    //     var dataurlTambak = '{% url "investarisasi:dataTambak" %}';
-    //     var dataurlHutan = '{% url "investarisasi:dataHutan" %}';
-    //     var dataurlSemakBelukar = '{% url "investarisasi:dataSemakBelukar" %}';
-    //     var dataurlKebun = '{% url "investarisasi:dataKebun" %}';
-    //     var dataurlSungai = '{% url "investarisasi:dataSungai" %}';
-    //     var dataurlLainnya = '{% url "investarisasi:dataLainnya" %}';
-
-  
-    //     var overlayMaps = {
-    //         esri: esri,
-    //         carto: carto,
-    //     };
-
-    //     var lahanKosong = TambahLayer(dataurlLahanKosong, map, "#ffffff", 1).addTo(map);
-    //     var hutan = TambahLayer(dataurlHutan, map, "#c7e0b0", 1).addTo(map);
-    //     var sungai = TambahLayer(dataurlSungai, map, "#548AA1", 2).addTo(map);
-    //     var tambak = TambahLayer(dataurlTambak, map, "#75d1a8", 1).addTo(map);
-    //     var semakBelukar = TambahLayer(dataurlSemakBelukar, map, "#8aed96", 1).addTo(map);
-    //     //var sawah = TambahLayer(dataurlSawah, map, "#00ffff", 1).addTo(map);
-    //     var kebun = TambahLayer(dataurlKebun, map, "#66A163", 1).addTo(map);
-    //     var lainnya = TambahLayer(dataurlLainnya, map, "#B35DAE", 1).addTo(map);
-
-    //     function check(kode, id) {
-
-    //         var dafterCheck = [ kebun, lahanKosong, tambak, semakBelukar, hutan, sungai, lainnya]
-
-    //         var checkBox = document.getElementById(id);
-
-    //         if (checkBox.checked == true) {
-    //             map.addLayer(dafterCheck[kode]);
-    //         } else {
-    //             map.removeLayer(dafterCheck[kode]);
-    //         }
-    //     }
-
-
-    // }
 </script>
 
 </html>
